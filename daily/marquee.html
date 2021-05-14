@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>my marquee</title>
+    <style>
+      .deng{
+        border:1px solid #eee;
+        padding: 0 0 0 10px;
+        width: 170px;
+        overflow: hidden;
+        margin: 50px auto;
+        height: 50px;
+        line-height: 50px;
+      }
+      .test{
+        padding: 0;
+        white-space: nowrap;
+        display: inline-block;
+      }
+      .child{
+        padding: 0;
+        transition: 0.3s ease;
+      }
+      .clearfix::after {
+        display: block;
+        clear: both;
+        visibility: hidden;
+        height: 0;
+        content: ' ';
+        font-size: 0;
+      }
+      .clearfix {
+        *zoom: 1;
+      }
+    </style>
+</head>
+<body>
+  <div class="container">
+    <div class="deng">
+      <span class="test">
+        <a class="child" v-for="(item,i) in list">{{item.txt+item.id}};</a>
+      </span>
+    </div>
+  </div>
+  <script src="../js/jquery.3.5.1.js"></script>
+  <script src="../js/vue.js"></script>
+  <script>
+    var _vue = new Vue({
+      el:'.container',
+      data:{
+        scrollNum:0,
+        timer:null,
+        list:[
+          {id:1,txt:'爱干净的拉升矮冬瓜'},
+          // {id:2,txt:'爱干净瓜'},
+          // {id:3,txt:'爱干净升矮冬瓜'},
+          // {id:4,txt:'爱干净的拉升矮冬瓜,爱干净的拉升矮冬瓜'},
+          // {id:5,txt:'爱干净的拉升矮冬瓜,爱干净的拉升矮冬瓜,爱干净的拉升矮冬瓜'},
+          // {id:6,txt:'爱干净的拉升矮'},
+        ]
+      },
+      mounted(){
+        this.getMove();
+      },
+      created(){
+       
+      },
+      methods:{
+        getMove(){
+          var _width = $('.test').width();
+          this.list.push(this.list[0])
+          this.timer = setInterval(() => {
+            this.scrollNum++;
+            if(this.scrollNum>=_width){
+              this.scrollNum = 0;
+            }
+            $('.test').css({
+              transform: "translateX("+(-this.scrollNum)+"px)",
+            })
+          }, 15);
+        },
+      }
+    })
+  
+  </script>
+</body>
+</html>
